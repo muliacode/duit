@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* The /shadcn entrypoint pulls in the full design-system theme layer and
+   adds the colour names shadcn-vue's vendored components compile against.
+   Importing "@muliacode/tokens-tailwind" alone leaves those undefined, and
+   Tailwind v4 silently omits any utility whose theme variable is missing. */
+@import "@muliacode/tokens-tailwind/shadcn";
+@import "tw-animate-css";
