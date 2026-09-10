@@ -1,8 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* The /shadcn entrypoint pulls in the full design-system theme layer and
-   adds the colour names shadcn-vue's vendored components compile against.
-   Importing "@muliacode/tokens-tailwind" alone leaves those undefined, and
-   Tailwind v4 silently omits any utility whose theme variable is missing. */
-@import "@muliacode/tokens-tailwind/shadcn";
-@import "tw-animate-css";
+@import "tailwindcss";
+@import "@muliacode/tokens-tailwind";
+
+/* Everything below is layout/reset only — all color, type, spacing and
+   radius comes from the Mulia Code tokens package imported above. Never
+   hardcode a hex color or off-grid pixel value in a component; see the
+   design system guide in the project's handoff README. */
+html, body, #app {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: var(--surface-app);
+    color: var(--text-primary);
+    font-family: var(--font-family-ui);
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: var(--accent-text);
+}
+
+a:hover {
+    color: var(--accent-solid-hover);
+}
+
+* {
+    box-sizing: border-box;
+}
+
