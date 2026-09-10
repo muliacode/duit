@@ -45,3 +45,50 @@ CREATE TABLE IF NOT EXISTS budget_categories (
                                                  created_at      TEXT NOT NULL,
                                                  updated_at      TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS bills (
+                                     id               TEXT PRIMARY KEY,
+                                     name             TEXT NOT NULL,
+                                     amount_minor     INTEGER NOT NULL,
+                                     cadence_interval INTEGER NOT NULL DEFAULT 1,
+                                     cadence_unit     TEXT NOT NULL DEFAULT 'month',
+                                     next_due         TEXT NOT NULL,
+                                     account_id       TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+    status           TEXT NOT NULL DEFAULT 'upcoming',
+    created_at       TEXT NOT NULL,
+    updated_at       TEXT NOT NULL
+    );
+CREATE INDEX IF NOT EXISTS idx_bills_next_due ON bills(next_due);
+
+CREATE TABLE IF NOT EXISTS goals (
+                                     id                TEXT PRIMARY KEY,
+                                     name              TEXT NOT NULL,
+                                     target_minor      INTEGER NOT NULL,
+                                     saved_minor       INTEGER NOT NULL DEFAULT 0,
+                                     target_date       TEXT,
+                                     linked_account_id TEXT REFERENCES accounts(id) ON DELETE SET NULL,
+    created_at        TEXT NOT NULL,
+    updated_at        TEXT NOT NULL
+    );
+
+-- Singleton settings row. The CHECK pins it to a single record.
+CREATE TABLE IF NOT EXISTS settings (
+                                        id               INTEGER PRIMARY KEY CHECK (id = 1),
+    currency         TEXT NOT NULL DEFAULT 'EUR',
+    locale           TEXT NOT NULL DEFAULT 'en',
+    theme            TEXT NOT NULL DEFAULT 'system',
+    date_format      TEXT NOT NULL DEFAULT 'human',
+    hide_amounts     INTEGER NOT NULL DEFAULT 0,
+    budget_method    TEXT NOT NULL DEFAULT 'simple',
+    debt_strategy    TEXT NOT NULL DEFAULT 'avalanche',
+    round_up_savings INTEGER NOT NULL DEFAULT 0,
+    passcode_hash    TEXT NOT NULL DEFAULT ''
+    );
+INSERT OR IGNORE INTO settings (id) VALUES (1);
+
+CREATE TABLE IF NOT EXISTS categorization_rules (
+                                                    id         TEXT PRIMARY KEY,
+                                                    match_text TEXT NOT NULL,
+                                                    category   TEXT NOT NULL,
+                                                    created_at TEXT NOT NULL
+);
