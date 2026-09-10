@@ -63,7 +63,7 @@ func (t AccountType) Kind() AccountKind {
 }
 
 // Account is the domain entity. All monetary fields are minor units
-// (cents) to avoid float rounding error.
+// (cents) to avoid float rounding errors.
 type Account struct {
 	ID                  string
 	Name                string
@@ -96,6 +96,4 @@ func (a Account) Validate() error {
 	return nil
 }
 
-func domainValidation(field, msg string) error {
-	return NewValidationError(field, msg)
-}
+func domainValidation(field, msg string) error { return NewValidationError(field, msg) }

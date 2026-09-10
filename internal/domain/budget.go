@@ -18,6 +18,10 @@ func (m BudgetMethod) Valid() bool {
 	return false
 }
 
+// BudgetCategory is deliberately the same row shape for both the "simple"
+// and "envelope" methods: the methods differ only in how the frontend
+// presents AllocatedMinor (a cap vs. an assignment) and in whether
+// unspent amounts roll over, not in the stored schema.
 type BudgetCategory struct {
 	ID             string
 	Name           string
